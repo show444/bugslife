@@ -22,13 +22,32 @@
       <input id="display_order" name="display_order" type="number" class="form-control" th:field="*{displayOrder}" />
     </div>
     <div class="form-group">
-      <label>説明</label>
-      <textarea class="form-control"></textarea>
+      <label for="description">説明</label>
+      <textarea id="description" name="description" class="form-control" th:field="*{description}"></textarea>
+      <div id="descriptionError" style="color: red"></div>
     </div>
 
     <input id="submit" type="submit" class="btn btn-success" value="保存">
     <a th:href="@{/categories}" class="btn btn-default btn-secondary">戻る</a>
   </form>
+  <script>
+    window.addEventListener('DOMContentLoaded', function () {
+      const descriptionTextArea = document.getElementById('description');
+      const descriptionError = document.getElementById('descriptionError');
+
+      descriptionTextArea.addEventListener('input', function () {
+        const maxLength = 300;
+        const currentLength = descriptionTextArea.value.length;
+
+        if (currentLength > maxLength) {
+          descriptionError.textContent = '300文字以内で入力してください。';
+        } else {
+          descriptionError.textContent = '';
+        }
+      });
+    });
+  </script>
 </th:block>
 
 </html>
+<script src="/js/category/category-form.js"></script>
