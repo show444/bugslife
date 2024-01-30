@@ -20,7 +20,7 @@
     </thead>
     <tbody>
       <tr th:each="app : ${listApp}">
-        <td th:text="${app.name}"></td>
+        <td class="text-overflow" th:text="${app.name}"></td>
         <td class="text-overflow">
           <a th:href="${app.url}" target="_blank" th:text="${app.url}"></a>
         </td>
@@ -30,10 +30,13 @@
           <img th:if="${app.image != null && app.image != ''}" th:src="${app.image}" th:alt="現在の画像"
             style="max-width: 100px; max-height: 100px" />
         </td>
-        <td class="for-tablet" th:text="${app.developer}"></td>
+        <td class="for-tablet text-overflow" th:text="${app.developer}"></td>
         <td>
           <a class="btn btn-primary" th:href="@{/apps/{id}(id = ${app.id})}">Show</a>
           <a class="btn btn-secondary" th:href="@{/apps/{id}/edit(id = ${app.id})}">Edit</a>
+          <form th:action="@{/apps/{id}(id = ${app.id})}" th:method="delete">
+            <button class="btn btn-danger" type="submit">Destroy</button>
+          </form>
         </td>
         <td th:text="${app.active}"></td>
       </tr>

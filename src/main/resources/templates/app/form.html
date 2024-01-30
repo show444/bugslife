@@ -11,24 +11,30 @@
     <div class="form-group">
       <label for="name">Name</label>
       <input id="name" name="name" type="text" class="form-control" th:field="*{name}"
-        style='height: 200px; width: max-content;' />
+        style='height: 40px; width: 100%;' />
+    </div>
+    <div class="form-group">
+      <label for="url">Url</label>
+      <input id="url" name="url" type="text" class="form-control" th:field="*{url}"
+        style='height: 40px; width: 100%;' />
     </div>
     <div class="form-group">
       <label for="description">Description</label>
-      <input id="description" name="description" type="text" class="form-control" th:field="*{description}"
-        style='height: 200px; width: max-content;' />
+      <textarea id="description" name="description" type="textarea" class="form-control" th:field="*{description}"
+        style='height: 200px; width: 100%;'></textarea>
+      <div id="descriptionError" style="color: red"></div>
     </div>
     <div class="form-group">
       <label for="image_file-lg">Image</label>
-      <input id="image_file" name="image_file" type="file" class="form-control-lg" />
+      <input id="image_file" name="image_file" type="file" class="form-control"  />
       <!-- 画像があれば縮小して表示 -->
-      <img th:if="${app.image != null && app.image != ''}" th:src="*{image}" th:alt="現在の画像" width="200" height="200" />
+      <img th:if="${app.image != null && app.image != ''}" th:src="*{image}" th:alt="LOGO" width="200" height="200" style="background-color: orange;"/>
       <input id="image" name="image" type="hidden" th:field="*{image}" />
     </div>
     <div class="form-group">
       <label for="developer">Developer</label>
       <input id="developer" name="developer" type="text" class="form-control" th:field="*{developer}"
-        style='height: 200px; width: max-content;' />
+        style='height: 40px; width: 100%;' />
     </div>
     <div class="form-check">
       <input id="active" name="active" type="checkbox" class="form-check-input" th:field="*{active}" />
@@ -39,6 +45,21 @@
     <a th:href="@{/apps}" class="btn btn-default">Back</a>
   </form>
   <script>
+    window.addEventListener('DOMContentLoaded', function () {
+      const descriptionTextArea = document.getElementById('description');
+      const descriptionError = document.getElementById('descriptionError');
+
+      descriptionTextArea.addEventListener('input', function () {
+        const maxLength = 2000;
+        const currentLength = descriptionTextArea.value.length;
+
+        if (currentLength > maxLength) {
+          descriptionError.textContent = '2000文字以内で入力してください。';
+        } else {
+          descriptionError.textContent = '';
+        }
+      });
+    });
     window.addEventListener('load', function () {
       const imageFile = document.getElementById('image_file');
       const image = document.getElementById('image');
