@@ -2,7 +2,6 @@ package com.example.controller.api;
 
 import com.example.service.CategoryService;
 import com.example.model.Category;
-import com.example.model.CategoryProduct;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
