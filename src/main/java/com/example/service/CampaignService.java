@@ -75,8 +75,8 @@ public class CampaignService {
 			while ((line = br.readLine()) != null) {
 				final String[] split = line.replace("\"", "").split(",");
 				campaigns.add(new Campaign(split[0], split[1], split[2], split[3],
-											DiscountType.valueOf(Integer.parseInt(split[4])),
-											CampaignStatus.valueOf(Integer.parseInt(split[5])), split[6]));
+						DiscountType.valueOf(Integer.parseInt(split[4])),
+						CampaignStatus.valueOf(Integer.parseInt(split[5])), split[6]));
 			}
 			batchInsert(campaigns);
 
@@ -117,7 +117,7 @@ public class CampaignService {
 	 * @param nexStatus 更新後ステータス
 	 * @throws Exception
 	 */
-	@Transactional(readOnly = false, rollbackFor = RuntimeException.class)
+	@Transactional(readOnly = false, rollbackFor = Exception.class)
 	public void bulkStatusUpdate(List<Long> idList, CampaignStatus nexStatus) throws Exception {
 		try {
 			idList.forEach(id -> {
