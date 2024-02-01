@@ -75,8 +75,8 @@ public class CampaignService {
 			while ((line = br.readLine()) != null) {
 				final String[] split = line.replace("\"", "").split(",");
 				campaigns.add(new Campaign(split[0], split[1], split[2], split[3],
-											DiscountType.valueOf(Integer.parseInt(split[4])),
-											CampaignStatus.valueOf(Integer.parseInt(split[5])), split[6]));
+						DiscountType.valueOf(Integer.parseInt(split[4])),
+						CampaignStatus.valueOf(Integer.parseInt(split[5])), split[6]));
 			}
 			batchInsert(campaigns);
 
@@ -121,7 +121,7 @@ public class CampaignService {
 	public void bulkStatusUpdate(List<Long> idList, CampaignStatus nexStatus) throws Exception {
 		try {
 			idList.forEach(id -> {
-				Campaign campaign = campaignRepository.findById(id).orElseThrow(() -> new RuntimeException("Campaign not found for id: " + id));
+				Campaign campaign = campaignRepository.findById(id).get();
 				// 更新前後のステータスが同じ場合はエラー
 				if (nexStatus.getId() == campaign.getStatus().getId()) {
 					throw new RuntimeException(campaign.getName() + "にステータスの変更がないため、ステータスの一括更新に失敗しました。");
