@@ -12,6 +12,7 @@ import com.example.repository.ProductRepository;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.Tuple;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Join;
@@ -24,6 +25,7 @@ import com.example.form.ProductForm;
 import com.example.form.ProductSearchForm;
 import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -62,12 +64,12 @@ public class ProductService {
 	// 指定された検索条件に一致するエンティティを検索する
 	public List<ProductWithCategoryName> search(Long shopId, ProductSearchForm form) {
 		final CriteriaBuilder builder = entityManager.getCriteriaBuilder();
-		final CriteriaQuery<ProductWithCategoryName> query = builder.createQuery(ProductWithCategoryName.class);
+		final CriteriaQuery<Tuple> query = builder.createTupleQuery();
 		final Root<Product> root = query.from(Product.class);
-
+	
 		Join<Product, CategoryProduct> categoryProductJoin = root.joinList("categoryProducts", JoinType.LEFT);
 		Join<CategoryProduct, Category> categoryJoin = categoryProductJoin.join("category", JoinType.LEFT);
-
+	
 		query.multiselect(
 			root.get("id"),
 			root.get("code"),
@@ -75,9 +77,11 @@ public class ProductService {
 			root.get("weight"),
 			root.get("height"),
 			root.get("price"),
-			categoryJoin.get("name").alias("categoryName")
+			builder.function("group_concat", String.class, categoryJoin.get("name")).alias("categoryNames")
 		).where(builder.equal(root.get("shopId"), shopId));
-
+	
+		// group_concatでカテゴリー名を連結して重複を排除する
+		query.groupBy(root.get("id"));
 		// formの値を元に検索条件を設定する
 		if (!StringUtils.isEmpty(form.getName())) {
 			// name で部分一致検索
@@ -134,7 +138,25 @@ public class ProductService {
 			query.where(builder.lessThanOrEqualTo(root.get("price"), form.getPrice2()));
 		}
 
-		return entityManager.createQuery(query).getResultList();
+		List<ProductWithCategoryName> resultList = new ArrayList<>();
+
+		List<Tuple> tuples = entityManager.createQuery(query).getResultList();
+		for (Tuple tuple : tuples) {
+			Long id = tuple.get(root.get("id"));
+			String code = tuple.get(root.get("code"));
+			String name = tuple.get(root.get("name"));
+			Integer weight = tuple.get(root.get("weight"));
+			Integer height = tuple.get(root.get("height"));
+			Double price = tuple.get(root.get("price"));
+			String categoryNames = (String)tuple.get("categoryNames");
+
+			List<String> categoryNameList = Arrays.asList(categoryNames.split(","));
+
+			ProductWithCategoryName productWithCategoryName = new ProductWithCategoryName(id, code, name, weight, height, price, categoryNameList);
+			resultList.add(productWithCategoryName);
+		}
+
+		return resultList;
 	}
 
 	/**
