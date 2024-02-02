@@ -41,8 +41,7 @@ a.btn-link {
     display: none;
   }
   .app-show-container {
-    width: 1500px;
-    height: 3000px;
+    width: 100%;
   }
   span.font-impact {
     font-size: x-large;
@@ -50,16 +49,12 @@ a.btn-link {
 }
 
 /* スマホ */
-@media (max-device-width: 500px) {
-  /* 一覧 */
-  .for-pc.for-tablet {
-    display: none;
-  }
+@media (max-width: 500px) {
   
   .app-show-container {
-    width: 1500px;
+    width: 100%;
   }
   span.font-impact {
-    font-size: xx-large;
+    font-size: x-large;
   }
 }
