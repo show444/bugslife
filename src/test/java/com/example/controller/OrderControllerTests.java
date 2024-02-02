@@ -123,7 +123,7 @@ public class OrderControllerTests {
 		product.setCode("42");
 		product.setWeight(42);
 		product.setHeight(42);
-		product.setPrice(42);
+		product.setPrice(42.0);
 		product.setTaxType(1);
 		productService.save(product);
 		mvc.perform(
