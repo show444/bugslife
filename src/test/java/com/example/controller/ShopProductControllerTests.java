@@ -77,7 +77,7 @@ public class ShopProductControllerTests {
 		product.setCode("42");
 		product.setWeight(42);
 		product.setHeight(42);
-		product.setPrice(42);
+		product.setPrice(42.0);
 		product.setTaxType(1);
 		productService.save(product);
 		mvc.perform(MockMvcRequestBuilders.get("/shops/" + shop.getId() + "/products/" + product.getId()))
@@ -177,7 +177,7 @@ public class ShopProductControllerTests {
 		product.setCode("42");
 		product.setWeight(42);
 		product.setHeight(42);
-		product.setPrice(42);
+		product.setPrice(42.0);
 		product.setTaxType(1);
 		productService.save(product);
 
@@ -224,7 +224,7 @@ public class ShopProductControllerTests {
 		product.setCode("42");
 		product.setWeight(42);
 		product.setHeight(42);
-		product.setPrice(42);
+		product.setPrice(42.0);
 		product.setTaxType(1);
 		productService.save(product);
 
@@ -281,7 +281,7 @@ public class ShopProductControllerTests {
 		product.setCode("42");
 		product.setWeight(42);
 		product.setHeight(42);
-		product.setPrice(42);
+		product.setPrice(42.0);
 		product.setTaxType(1);
 		productService.save(product);
 
