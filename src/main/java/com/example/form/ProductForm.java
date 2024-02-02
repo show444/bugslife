@@ -44,7 +44,7 @@ public class ProductForm {
 	private Integer height;
 
 	@NotNull(message = "値段を入力してください。")
-	private Integer price;
+	private Double price;
 
 	@NotNull(message = "税率を選択してください。")
 	private Integer rate = TaxType.RATE_10;
