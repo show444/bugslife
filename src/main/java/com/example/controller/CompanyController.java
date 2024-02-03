@@ -100,7 +100,7 @@ public class CompanyController {
 	 * @return
 	 */
 	@PostMapping
-	public String create(@ModelAttribute Company entity, BindingResult result,
+	public String create(@Validated @ModelAttribute Company entity, BindingResult result,
 			RedirectAttributes redirectAttributes) {
 		Company company = null;
 		try {
@@ -160,7 +160,7 @@ public class CompanyController {
 	/**
 	 * 取引先情報の削除処理
 	 *
-	 * @param id 取引先ID
+	 * @param id                 取引先ID
 	 * @param redirectAttributes リダイレクト先に値を渡す
 	 * @return
 	 */
