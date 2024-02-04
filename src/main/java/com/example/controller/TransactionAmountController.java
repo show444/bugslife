@@ -90,7 +90,7 @@ public class TransactionAmountController {
 	 * @return
 	 */
 	@PostMapping
-	public String create(@ModelAttribute TransactionAmount entity, BindingResult result,
+	public String create(@Validated @ModelAttribute TransactionAmount entity, BindingResult result,
 			RedirectAttributes redirectAttributes) {
 		TransactionAmount tAmount = null;
 		try {
@@ -103,7 +103,7 @@ public class TransactionAmountController {
 
 			tAmount = transactionAmountService.save(entity);
 			redirectAttributes.addFlashAttribute("success", Message.MSG_SUCESS_INSERT);
-			return "redirect:/companies/" + tAmount.getCompanyId();
+			return "redirect:/transactionAmounts/" + tAmount.getCompanyId();
 		} catch (Exception e) {
 			redirectAttributes.addFlashAttribute("error", Message.MSG_ERROR);
 			e.printStackTrace();
@@ -153,7 +153,7 @@ public class TransactionAmountController {
 
 			tAmount = transactionAmountService.save(entity);
 			redirectAttributes.addFlashAttribute("success", Message.MSG_SUCESS_UPDATE);
-			return "redirect:/companies/" + tAmount.getCompanyId();
+			return "redirect:/transactionAmounts/" + tAmount.getCompanyId();
 		} catch (Exception e) {
 			redirectAttributes.addFlashAttribute("error", Message.MSG_ERROR);
 			e.printStackTrace();
